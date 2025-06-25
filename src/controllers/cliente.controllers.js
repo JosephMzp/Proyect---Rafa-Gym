@@ -38,6 +38,19 @@ export const getCliente = async (req, res) => {
     }
 }
 
+export const getClienteDni = async (req, res) => {
+    try{
+     const {dni} = req.query;
+     if (!dni) return res.status(400).json({ message: "Se requiere DNI" });
+     const cliente = await Cliente.findOne({ dni: Number(dni) });
+     if(!cliente) return res.status(404).json({message: 'Cliente no encontrado'})
+     res.json(cliente)
+    }catch(error){
+        console.log(error)
+        return res.status(404).json({message:"Cliente no encontrado"});
+    }
+}
+
 export const deleteClientes = async (req, res) => {
     try{
         const cliente = await Cliente.findByIdAndDelete(req.params.id)

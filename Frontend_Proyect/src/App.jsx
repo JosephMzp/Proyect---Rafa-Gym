@@ -14,14 +14,20 @@ import { TaskProvider } from './context/TasksContext.jsx'
 import Navbar from './components/Navbar.jsx'
 import ClientesPage from './pages/ClientesPage.jsx'
 import { ClienteProvider } from './context/ClientesContext.jsx'
-import RegistroClientes from './components/RegistroClientes.jsx'
+import RegistroClientes from './pages/RegistroClientes.jsx'
 import LayoutPrivado from './LayoutPrivado.jsx'
+import AsistenciasPage from './pages/AsistenciasPage.jsx'
+import RegistrarAsistencia from './pages/RegistrarAsistencia.jsx'
+import { AsistenciaProvider } from './context/AsistenciaContext.jsx'
+import { SedeProvider } from './context/SedesContext.jsx'
 
 function App(){
   return (
  <AuthProvider>
   <ClienteProvider>
       <TaskProvider>
+        <AsistenciaProvider>
+          <SedeProvider>
          <BrowserRouter>
          <main className='container mx-auto'>
          <Navbar/>
@@ -39,11 +45,15 @@ function App(){
            <Route path='/usuarios' element={<UsuariosPage/>} />
            <Route path='/clientes' element={<ClientesPage/>} />
            <Route path='/add-clientes' element={<RegistroClientes/>} />
+           <Route path='/asistencias' element={<AsistenciasPage/>} />
+           <Route path='/add-asistencias' element={<RegistrarAsistencia/>} />
           </Route>
           </Route>
           </Routes>
           </main>
          </BrowserRouter>
+         </SedeProvider>
+         </AsistenciaProvider>
       </TaskProvider>
       </ClienteProvider>
   </AuthProvider>

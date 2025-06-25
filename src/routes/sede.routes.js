@@ -2,7 +2,7 @@ import {Router} from "express"
 import {authRequired} from "../middlewares/validateToken.js"
 import { getSedes, getSede, createSedes, deleteSedes, updateSedes} from "../controllers/sede.controllers.js"
 import {validateSchema} from '../middlewares/validator.middleware.js'
-import {createSedeSchema, createSedeSchema} from '../schemas/sede.schema.js'
+import {createSedeSchema} from '../schemas/sede.schema.js'
 
 const router = Router()
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useClientes } from '../context/ClientesContext';
+import { useClientes } from '../context/ClientesContext.jsx';
 import {Link} from 'react-router-dom'
 
 function ClientesPage({cliente}) {

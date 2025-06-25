@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import {createClientesRequest, getClientesRequest, getClienteRequest, 
-    deleteClientesRequest, updateClientesRequest} from '../api/clientes.js'
+    deleteClientesRequest, updateClientesRequest, getClientePorDniRequest} from '../api/clientes.js'
 
 const ClienteContext = createContext();
 
@@ -27,7 +27,7 @@ export function ClienteProvider({children}) {
         }
     }
 
-    const createCliente = async (cliente) => { 
+    const createClientes = async (cliente) => { 
          try{
             const res = await createClientesRequest(cliente)
             console.log(res.data)
@@ -53,6 +53,15 @@ export function ClienteProvider({children}) {
         }
     }
 
+     const getClienteDni = async(dni) => {
+         try{
+             const res = await getClientePorDniRequest(dni);
+             return res.data
+         }catch{
+             console.log(error)
+         }
+     }
+
     const updateCliente = async (id, cliente) => {
         try{
             await updateClientesRequest(id, cliente)
@@ -64,7 +73,7 @@ export function ClienteProvider({children}) {
     return (
         <ClienteContext.Provider 
         value={{
-            clientes, createCliente, getClientes,deleteCliente,getCliente,updateCliente}}>
+            clientes, createClientes, getClientes,deleteCliente,getCliente,updateCliente,getClienteDni}}>
             {children}
         </ClienteContext.Provider>
     )

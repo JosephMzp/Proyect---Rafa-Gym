@@ -2,9 +2,7 @@ import Sede from '../models/sede.model.js'
 
 export const getSedes = async (req, res) => {
     try{
-        const sedes = await Sede.find({
-        usuario: req.usuario.id
-        }).populate('usuario')
+        const sedes = await Sede.find();
         res.json(sedes)
     }catch(error){
         return res.status(500).json({message:"Sede not found"});
@@ -21,7 +19,7 @@ export const createSedes = async (req, res) => {
         const savedSede = await newSedes.save()
         res.json(savedSede)
     }catch(error){
-        return res.status(500).json({message:"Task not found"});
+        return res.status(500).json({message:"sede not found"});
     }
 }
 

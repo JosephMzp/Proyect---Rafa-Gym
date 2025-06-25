@@ -9,7 +9,7 @@ import utc from 'dayjs/plugin/utc'
 function RegistroClientes() {
     
     const {register, handleSubmit, setValue, formState: { errors }} = useForm();
-     const {createCliente, getCliente, updateCliente, clientes} = useClientes();
+     const {createClientes, getCliente, updateCliente, clientes} = useClientes();
      const navigate = useNavigate();
      const params = useParams();
 
@@ -18,7 +18,7 @@ function RegistroClientes() {
          if(params.id) {
              const cliente = await getCliente(params.id)
              setValue('dni', cliente.dni)
-             setValue('nombre', cliente.description)
+             setValue('nombre', cliente.nombre)
              setValue('apellidos', cliente.apellidos)
              setValue('telefono', cliente.telefono)
              setValue('email', cliente.email)
@@ -29,16 +29,18 @@ function RegistroClientes() {
      }, [])
 
     const onSumit = handleSubmit((data) => {
-         const dataValid = {
-             ...data,
-             date: data.date ? dayjs.utc(data.date).format() : dayjs.utc().format()
-         }
-         
-         if(params.id) {
-             updateCliente(params.id, dataValid)
-         }else {
-             createCliente(dataValid)
-         }
+          const dataValid = {
+              ...data,
+              dni: Number(data.dni),
+              telefono: Number(data.telefono),
+
+        }
+        
+          if(params.id) {
+              updateCliente(params.id, dataValid)
+          }else {
+              createClientes(dataValid)
+          }
          navigate('/clientes')
     })
 
@@ -54,7 +56,7 @@ function RegistroClientes() {
             />
 
             <label htmlFor='nombre'>Nombres</label>
-            <input type="text" placeholder="Email"
+            <input type="text" placeholder="Nombres"
             {...register("nombre", { required: true })}
             className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
             />

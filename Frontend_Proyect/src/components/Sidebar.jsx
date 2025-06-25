@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const menuItems = [
   { name: "Clientes", to: "/clientes" },
+  { name: "Asistencias", to: "/asistencias" },
   { name: "Usuarios", to: "/usuarios" },
   { name: "Tareas", to: "/tasks" },
 ];

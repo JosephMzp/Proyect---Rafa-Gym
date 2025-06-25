@@ -16,7 +16,7 @@ function LoginPage() {
   });
 
    useEffect(() => {
-     if(isAuthenticated) {navigate('/tasks')}
+     if(isAuthenticated) {navigate('/clientes')}
    }, [isAuthenticated])
 
   return (

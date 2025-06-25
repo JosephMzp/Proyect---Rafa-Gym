@@ -3,6 +3,7 @@ import { authRequired } from "../middlewares/validateToken.js";
 import {
   getCliente,
   getClientes,
+  getClienteDni,
   createClientes,
   deleteClientes,
   updateClientes,
@@ -14,7 +15,9 @@ const router = Router();
 
 router.get("/clientes", authRequired, getClientes);
 
-router.get("/clientes/:id", authRequired, getCliente);
+//router.get("/clientes/:id", authRequired, getCliente);
+
+router.get("/clientes/buscar", authRequired, getClienteDni)
 
 router.post(
   "/clientes",

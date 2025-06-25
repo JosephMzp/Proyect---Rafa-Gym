@@ -6,7 +6,7 @@ function Navbar() {
     const {isAuthenticated, logout, usuario} = useAuth();
 
     return (
-        <nav className="bg-zinc-700  flex justify-between py-4 px-10">
+        <nav className="bg-zinc-900  flex justify-between py-4 px-10">
             <Link to={
                 isAuthenticated ? "/tasks" : "/"
             }>
@@ -18,10 +18,7 @@ function Navbar() {
                     <li>
                      Wellcome {usuario.username}
                     </li>
-                    <li>
-                     <Link to='/add-task'
-                     className='bg-green-400 px-4 py-1 rounded-sm'>Añade tarea</Link>
-                    </li>
+                    
                     <li>
                      <Link to='/'
                      className='bg-green-400 px-4 py-1 rounded-sm' onClick={() => {logout();}}
