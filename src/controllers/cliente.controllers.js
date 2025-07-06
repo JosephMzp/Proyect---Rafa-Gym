@@ -11,15 +11,14 @@ export const getClientes = async (req, res) => {
 
 export const createClientes = async (req, res) => {
     try{
-        const {dni, nombre, apellidos, telefono, email, fechaRegistro, vencimientoMenbresia} = req.body;
+        const {dni, nombre, apellidos, telefono, email, fechaRegistro} = req.body;
         const  newCliente = new Cliente({
         dni, 
         nombre, 
         apellidos, 
         telefono, 
         email, 
-        fechaRegistro, 
-        vencimientoMenbresia
+        fechaRegistro
         })
         const savedCliente = await newCliente.save()
         res.json(savedCliente)
@@ -30,7 +29,7 @@ export const createClientes = async (req, res) => {
 
 export const getCliente = async (req, res) => {
     try{
-     const cliente = await Cliente.findById(req.params.id).populate('usuario');
+     const cliente = await Cliente.findById(req.params.id);
      if(!cliente) return res.status(404).json({message: 'Cliente no encontrada'})
      res.json(cliente)
     }catch(error){
@@ -39,16 +38,16 @@ export const getCliente = async (req, res) => {
 }
 
 export const getClienteDni = async (req, res) => {
-    try{
-     const {dni} = req.query;
-     if (!dni) return res.status(400).json({ message: "Se requiere DNI" });
-     const cliente = await Cliente.findOne({ dni: Number(dni) });
-     if(!cliente) return res.status(404).json({message: 'Cliente no encontrado'})
-     res.json(cliente)
-    }catch(error){
-        console.log(error)
-        return res.status(404).json({message:"Cliente no encontrado"});
-    }
+     try{
+      const {dni} = req.query;
+      if (!dni) return res.status(400).json({ message: "Se requiere DNI" });
+      const cliente = await Cliente.findOne({ dni: Number(dni) });
+      if(!cliente) return res.status(404).json({message: 'Cliente no encontrado'})
+      res.json(cliente)
+     }catch(error){
+         console.log(error)
+         return res.status(404).json({message:"Cliente no encontrado"});
+     }
 }
 
 export const deleteClientes = async (req, res) => {

@@ -10,7 +10,7 @@ router.get("/invitados", authRequired, getInvitados)
 
 router.get("/invitados/:id", authRequired, getInvitado)
 
-router.post("/invitados", authRequired, validateSchema(createInvitadoSchema), createInvitados)
+router.post("/clientes/:idCliente/invitados", authRequired, validateSchema(createInvitadoSchema), createInvitados)
 
 router.delete("/invitados/:id", authRequired, deleteInvitado)
 

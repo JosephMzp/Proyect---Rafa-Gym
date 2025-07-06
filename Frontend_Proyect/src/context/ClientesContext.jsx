@@ -57,7 +57,7 @@ export function ClienteProvider({children}) {
          try{
              const res = await getClientePorDniRequest(dni);
              return res.data
-         }catch{
+         }catch(error){
              console.log(error)
          }
      }

@@ -20,6 +20,16 @@ import AsistenciasPage from './pages/AsistenciasPage.jsx'
 import RegistrarAsistencia from './pages/RegistrarAsistencia.jsx'
 import { AsistenciaProvider } from './context/AsistenciaContext.jsx'
 import { SedeProvider } from './context/SedesContext.jsx'
+import MembresiasPage from './pages/MembresiasPage.jsx'
+import { MembresiaProvider } from './context/MembresiaContext.jsx'
+import PagosPage from './pages/PagosPage.jsx'
+import { PagoProvider } from './context/PagosContext.jsx'
+import InvitadosPage from './pages/InvitadosPage.jsx'
+import { InvitadoProvider } from './context/InvitadosContext.jsx'
+import RegistrarInvitado from './pages/RegistrarInvitados.jsx'
+import RegistrarPagos from './pages/RegistrarPagos.jsx'
+import VerPago from './pages/VerPagoPage.jsx'
+import DatosPage from './pages/DatosPage.jsx'
 
 function App(){
   return (
@@ -28,6 +38,9 @@ function App(){
       <TaskProvider>
         <AsistenciaProvider>
           <SedeProvider>
+            <MembresiaProvider>
+              <PagoProvider>
+                <InvitadoProvider>
          <BrowserRouter>
          <main className='container mx-auto'>
          <Navbar/>
@@ -38,6 +51,7 @@ function App(){
 
           <Route element={<ProtectedRoute/>}>
           <Route element={<LayoutPrivado />}>
+           <Route path='/datos' element={<DatosPage/>} />
            <Route path='/tasks' element={<TasksPage/>} />
            <Route path='/add-task' element={<TaskFormPage/>} />
            <Route path='/tasks/:id' element={<TaskFormPage/>} />
@@ -45,13 +59,24 @@ function App(){
            <Route path='/usuarios' element={<UsuariosPage/>} />
            <Route path='/clientes' element={<ClientesPage/>} />
            <Route path='/add-clientes' element={<RegistroClientes/>} />
+           <Route path='/clientes/:id' element={<RegistroClientes/>} />
+           <Route path='/clientes/ver/:id' element={<RegistroClientes mode="view"/>} />
            <Route path='/asistencias' element={<AsistenciasPage/>} />
            <Route path='/add-asistencias' element={<RegistrarAsistencia/>} />
+           <Route path='/invitados' element={<InvitadosPage/>} />
+           <Route path='/invitados/nuevo' element={<RegistrarInvitado/>} />
+           <Route path='/membresias' element={<MembresiasPage/>} />
+           <Route path='/pagos' element={<PagosPage/>} />
+           <Route path='/add-pagos' element={<RegistrarPagos/>} />
+           <Route path='/pagos/:id' element={<VerPago/>} />    
           </Route>
           </Route>
           </Routes>
           </main>
          </BrowserRouter>
+         </InvitadoProvider>
+         </PagoProvider>
+         </MembresiaProvider>
          </SedeProvider>
          </AsistenciaProvider>
       </TaskProvider>

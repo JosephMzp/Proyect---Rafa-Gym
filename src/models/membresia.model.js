@@ -10,10 +10,7 @@ const membresiasSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
-    accesoSedes: {
-        type: String,
-        require: true,
-    },
+    
     ingresoDiario: {
         type: Number,
         require: true,

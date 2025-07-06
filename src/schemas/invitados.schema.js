@@ -7,5 +7,5 @@ export const createInvitadoSchema = z.object({
     nombre: z.string({
         required_error: 'Nombre es necesario'
     }),
-    fechaVisita: z.string().datetime().optional(),
+    telefono: z.number().optional(),
 });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {useForm} from 'react-hook-form'
 import axiosInstance from "../api/axios.js";
-import axios from "axios"
+import axios from "axios";
 import {useClientes} from '../context/ClientesContext.jsx'
 import {useSedes} from '../context/SedesContext.jsx'
 import { useNavigate, useParams} from 'react-router-dom';
@@ -21,6 +21,8 @@ function RegistrarAsistencia() {
   const [sedes, setSedes] = useState([]);
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [membresia, setMembresia] = useState(null);
+  const [accesoSede, setaccesoSede] = useState(null);
 
   useEffect(() => {
     //getSedes().catch(() => setError("No se pudieron cargar las sedes"));
@@ -38,33 +40,57 @@ function RegistrarAsistencia() {
     setError(""); setMensaje("");
     try {
       const data = await getClienteDni(dni);
+      console.log(data)
       setCliente(data);
+      setMembresia(data.pago?.idMembresia);                // memb info
+      setSede(data.pago?.accesoSede?.[0]?._id);  // sede regist
     } catch(err){
         console.log(err)
       setCliente(null);
+      setMembresia(null);
+      setSede(null);
       setError(err.response?.status === 404 ? "Cliente no encontrado" : "Error al buscar cliente");
     }
   };
 
   const registrarAsistencia = async () => {
-    if (!cliente) return setError("Primero busca un cliente");
-    if (!sede) return setError("Selecciona una sede");
+  if (!cliente) return setError("Primero busca un cliente");
+  if (!sede) return setError("Selecciona una sede");
 
-    try {
-      await axiosInstance.post("/asistencias", {
-        idCliente: cliente._id,
-        idSede: sede
-      });
-      setMensaje("Asistencia registrada 😊");
-      setError("");
-    } catch(err) {
-      if (axios.isAxiosError(err) && err.response?.status === 409) {
-    setError("Ya registró asistencia hoy 🙂");
-  } else {
+  if (membresia?.tipo === "Básica" && sede !== accesoSede) {
+    return setError("Tu membresía Básica solo permite acceso a tu sede registrada.");
+  }
+
+  try {
+    await axiosInstance.post("/asistencias", {
+      idCliente: cliente._id,
+      idSede: sede,
+    });
+    setMensaje("Asistencia registrada 😊");
+    setError("");
+  } catch(err) {
+    if (axios.isAxiosError(err) && err.response) {
+      const { status, data } = err.response;
+      const msg = data?.message;
+
+      if (status === 409) {
+        return setError(msg ?? "Ya registró asistencia hoy 🙂");
+      }
+
+      if (status === 403) {
+        return setError(msg ?? "Tu membresía Básica solo permite acceso a tu sede registrada.");
+      }
+
+      if (status === 400) {
+        return setError(msg ?? "Solicitud inválida.");
+      }
+    }
+
+    console.error(err);
     setError("Error al registrar asistencia");
   }
-    }
-  };
+};
+
 
   return (
     <div className="max-w-md mx-auto bg-zinc-800 text-white p-6 rounded-md mt-10">
@@ -85,7 +111,6 @@ function RegistrarAsistencia() {
 
       {/* Mostrar errores */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {mensaje && <p className="text-green-400">{mensaje}</p>}
 
       {cliente && (
         <>

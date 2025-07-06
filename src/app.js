@@ -8,6 +8,9 @@ import clienteRoutes from './routes/cliente.routes.js'
 import sedeRoutes from './routes/sede.routes.js'
 import asistenciaRoutes from './routes/asistencias.routes.js'
 import invitadoRoutes from './routes/invitados.routes.js'
+import membresiaRoutes from './routes/membresia.routes.js'
+import pagosRoutes from './routes/pagos.routes.js'
+import reportesRoutes from './routes/reportes.routes.js'
 
 const app = express();
 
@@ -25,5 +28,8 @@ app.use("/api", clienteRoutes)
 app.use("/api", sedeRoutes)
 app.use('/api', asistenciaRoutes)
 app.use('/api', invitadoRoutes)
+app.use('/api', membresiaRoutes)
+app.use('/api', pagosRoutes)
+app.use('/api', reportesRoutes)
 
 export default app

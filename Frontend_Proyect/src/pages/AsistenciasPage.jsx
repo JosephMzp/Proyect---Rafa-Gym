@@ -3,25 +3,34 @@ import { useAsistencias } from "../context/AsistenciaContext.jsx";
 import { Link } from "react-router-dom";
 
 function AsistenciasPage() {
-  const { asistencias = [], total = 0, getAsistencias } = useAsistencias();
-  const [page, setPage] = useState(1);
-  const limit = 10;
-  const totalPages = Math.ceil(total / limit);
+  const {
+    asistencias,
+    page,
+    totalPages,
+    setPage,
+    limit,
+    total,
+    getAsistencias,
+  } = useAsistencias();
 
   useEffect(() => {
     getAsistencias(page, limit);
   }, [page, getAsistencias]);
-  console.log("Asistencias en estado:", asistencias, "Total:", total);
+  console.log("Asistencias en estado:", asistencias);
   return (
     <div className="p-6">
-        <ul className="flex justify-between px-4">
-      <h1 className="text-2xl font-bold mb-4 text-white">
-        Historial de Asistencias
-      </h1>
-      <li>
-        <Link to='/add-asistencias'
-        className='bg-green-900 px-4 py-1 rounded'>Agregar Asistencia</Link>
-      </li>
+      <ul className="flex justify-between px-4">
+        <h1 className="text-2xl font-bold mb-4 text-white">
+          Historial de Asistencias
+        </h1>
+        <li>
+          <Link
+            to="/add-asistencias"
+            className="bg-green-900 px-4 py-1 rounded"
+          >
+            Agregar Asistencia
+          </Link>
+        </li>
       </ul>
       <div className="overflow-auto rounded-lg border border-gray-700">
         <table className="w-full table-auto text-sm text-left text-white">
@@ -66,11 +75,10 @@ function AsistenciasPage() {
       </div>
 
       {/* Paginación */}
-      <div className="flex justify-center mt-4 space-x-2">
-        <button
+      <div className="flex justify-center space-x-2 mt-4">
+        <button className="px-3 py-1 bg-sky-600 rounded disabled:opacity-50"
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
-          className="px-3 py-1 bg-sky-600 rounded disabled:opacity-50"
         >
           Anterior
         </button>
@@ -78,21 +86,26 @@ function AsistenciasPage() {
           <button
             key={p}
             onClick={() => setPage(p)}
-            className={`px-3 py-1 rounded ${
-              p === page ? "bg-sky-500 text-white" : "bg-zinc-600"
-            }`}
+            className={`px-3 py-1 rounded ${p === page ? 'bg-sky-500 text-white' : 'bg-zinc-600'}`}
           >
             {p}
           </button>
         ))}
-        <button
-          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-          disabled={page === totalPages}
-          className="px-3 py-1 bg-sky-600 rounded disabled:opacity-50"
+        <button className="px-3 py-1 bg-sky-600 rounded disabled:opacity-50"
+          onClick={() => {
+            setPage((p) => {
+              const next = Math.min(totalPages, p + 1);
+              console.log("Cambio página:", p, "→", next);
+              return next;
+            });
+          }}
         >
           Siguiente
         </button>
       </div>
+      <p className="text-center mt-2">
+        Pag {page} de {totalPages} — Total: {total}
+      </p>
     </div>
   );
 }

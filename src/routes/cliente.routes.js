@@ -15,9 +15,9 @@ const router = Router();
 
 router.get("/clientes", authRequired, getClientes);
 
-//router.get("/clientes/:id", authRequired, getCliente);
+router.get("/clientes/buscar/", authRequired, getClienteDni)
 
-router.get("/clientes/buscar", authRequired, getClienteDni)
+router.get("/clientes/:id", authRequired, getCliente);
 
 router.post(
   "/clientes",

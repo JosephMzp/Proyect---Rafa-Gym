@@ -3,7 +3,12 @@ import mongoose from "mongoose";
 const invitadosSchema = new mongoose.Schema({
     idCliente: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cliente',
+        ref: 'Clientes',
+        require: true
+    },
+    idSede: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Sedes',
         require: true
     },
     dni: {
@@ -14,10 +19,9 @@ const invitadosSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    fechaVisita: {
-        type: Date,
-        default: Date.now,
-    },
+    telefono:{
+        type: Number,
+    }
     
 }, {
     timestamps: true

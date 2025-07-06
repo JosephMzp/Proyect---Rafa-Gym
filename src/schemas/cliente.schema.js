@@ -21,5 +21,4 @@ export const createClienteSchema = z.object({
       message: "Email no valido",
     }),
     fechaRegistro: z.string().datetime().optional(),
-    vencimientoMembresia: z.string().datetime().optional(),
 });

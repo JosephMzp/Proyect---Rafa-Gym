@@ -27,10 +27,6 @@ const clientesSchema = new mongoose.Schema({
     fechaRegistro: {
         type: Date,
         default: Date.now,
-    },
-    vencimientoMenbresia: {
-        type: Date,
-        default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     }
 }, {
     timestamps: true

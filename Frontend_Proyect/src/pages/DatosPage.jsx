@@ -7,21 +7,36 @@ import {
 } from '../components/Charts.jsx';
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
-import portada from "../assets/images/portada1.jpg";
 
-function HomePage() {
+function DatosPage() {
+  const [pagosPorMes, setPagosPorMes] = useState([]);
+  const [asistenciasDiarias, setAsistenciasDiarias] = useState([]);
+  const [distMembresias, setDistMembresias] = useState([]);
+  const [distMetodos, setDistMetodos] = useState([]);
+  const [heatmapSeries, setHeatmapSeries] = useState([]);
   const [stats, setStats] = useState({ clientes: 0, pagos: 0, asistencias: 0 });
+  const heatmapDays = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
 
   useEffect(() => {
     async function fetchData() {
       try {
         const [
-          r1, r2, r3
+          res1, res2, res3, res4, res5, r1, r2, r3
         ] = await Promise.all([
+          axiosInstance.get("/reportes/pagos-mes"),
+          axiosInstance.get("/reportes/asistencias-dia"),
+          axiosInstance.get("/reportes/membresias"),
+          axiosInstance.get("/reportes/metodos-pago"),
+          axiosInstance.get("/reportes/heatmap-asistencia"),
           axiosInstance.get("/reportes/clientes-activos"),
           axiosInstance.get("/reportes/pagos-mes/count"),
           axiosInstance.get("/reportes/asistencias-hoy"),
         ]);
+        setPagosPorMes(res1.data);
+        setAsistenciasDiarias(res2.data);
+        setDistMembresias(res3.data);
+        setDistMetodos(res4.data);
+        setHeatmapSeries(res5.data);
         setStats({ 
         clientes: r1.data.count, 
         pagos: r2.data.count, 
@@ -29,29 +44,17 @@ function HomePage() {
       });
       } catch (err) {
         console.error("Error trayendo reportes:", err);
+        if (err.response) {
+        console.error("Status:", err.response.status);
+        console.error("Mensaje:", err.response.data?.message);
+      }
       }
     }
     fetchData();
   }, []);
 
     return (
-        <div className="bg-gray-900 text-white min-h-screen">
-      {/* Hero */}
-      <header
-        className="relative h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${portada})` }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Gestiona tu Gimnasio con Facilidad</h1>
-          <p className="text-xl text-gray-300 mb-6">Control total de membresías, pagos y asistencia</p>
-          <Link
-            to="/register"
-            className="bg-sky-500 hover:bg-sky-600 transform hover:scale-105 transition rounded-md px-6 py-3 font-medium"
-          >
-            Empieza ahora
-          </Link>
-        </div>
-      </header>
+        <div className=" text-white min-h-screen">
 
       {/* Stats rápidos */}
       <section className="py-12">
@@ -72,15 +75,42 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Charts rápidos */}
+      <div className="space-y-12">
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Pagos y Asistencias por Mes</h2>
+        <GraficoLineasMes data={pagosPorMes} />
+      </section>
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Asistencias Diarias</h2>
+        <LineasDiariasChart data={asistenciasDiarias} />
+      </section>
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Distribución de Membresías</h2>
+          <PieChartCategory data={distMembresias} nameKey="tipo" valueKey="count" />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Métodos de Pago</h2>
+          <PieChartCategory data={distMetodos} nameKey="metodoPago" valueKey="count" />
+        </div>
+      </section>
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Asistencia por Hora y Día</h2>
+        <Heatmap series={heatmapSeries} xaxisCategories={heatmapDays} />
+      </section>
+    </div>
+
       {/* Cómo funciona */}
-      <section className="py-12 bg-gray-800">
-        <h2 className="text-2xl text-center font-semibold mb-8">Funciones</h2>
+      <section className="py-12">
+        <h2 className="text-2xl text-center font-semibold mb-8">Cómo Funciona</h2>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
           {[
             { icon: "👤", title: "Registrar cliente", desc: "Guarda datos y membresía." },
             { icon: "💳", title: "Gestión de pagos", desc: "Registra monto, método y fecha." },
             { icon: "📅", title: "Control de asistencia", desc: "Registra entrada diaria." },
             { icon: "📈", title: "Ver reportes", desc: "Estadísticas y gráficos actualizados." },
+
           ].map((step, i) => (
             <div
               key={i}
@@ -99,4 +129,4 @@ function HomePage() {
     )
 }
 
-export default HomePage
+export default DatosPage

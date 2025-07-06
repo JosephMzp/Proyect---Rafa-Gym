@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback ,useEffect } from "react";
 import {
   createAsistenciasRequest,
   getAsistenciasRequest,
@@ -21,17 +21,27 @@ export const useAsistencias = () => {
 export function AsistenciaProvider({ children }) {
   const [asistencias, setAsistencias] = useState([]);
   const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const getAsistencias = async (page = 1, limit = 10) => {
-    try {
-      const res = await getAsistenciasRequest(page, limit);
-      console.log('Asistencias desde backend:', res.data.asistencias);
-      setAsistencias(res.data.asistencias);
-      setTotal(res.data.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getAsistencias = async (p = page, lim = limit) => {
+  try {
+    const res = await getAsistenciasRequest(p, lim);
+    setAsistencias(res.data.asistencias);
+    setTotal(res.data.total);
+    setPage(res.data.page);
+    setTotalPages(res.data.totalPages);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+  useEffect(() => {
+    async function load() {
+    getAsistencias(page, limit);
+    }load();
+  }, [page, getAsistencias]);
 
   const createAsistencia = async (asistencia) => {
     try {
@@ -76,6 +86,11 @@ export function AsistenciaProvider({ children }) {
       value={{
         asistencias,
         total,
+        limit,
+        setLimit,
+        totalPages,
+        page,
+        setPage,
         createAsistencia,
         getAsistencias,
         deleteAsistencia,

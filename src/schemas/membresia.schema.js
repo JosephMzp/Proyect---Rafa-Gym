@@ -1,25 +1,20 @@
 import {z} from 'zod'
 
-export const createClienteSchema = z.object({
-    dni: z.number({
-        required_error: 'DNI es requerido'
-    }).min(8, { message: "DNI necesita 8 caracteres" }),
-    nombre: z.string({
-        required_error: 'Nombre es requerido'
+export const createMembresiaSchema = z.object({
+    tipo: z.string({
+        required_error: 'Introduzca el tipo de membresia'
     }),
-    apellidos: z.string({
-        required_error: 'Apellido es requerido'
+    costo: z.number({
+        required_error: 'Falta el costo'
     }),
-    telefono: z.number({
-        required_error: 'Telefono es requerido'
-    }).min(9, { message: "Telefono necesita 9 caracteres" }),
-    email: z
-    .string({
-        required_error: 'Email es necesario'
-    })
-    .email({
-      message: "Email no valido",
+    
+    ingresoDiario: z.number({
+        required_error: 'Tiene ingreso diario'
     }),
-    fechaRegistro: z.string().datetime().optional(),
-    vencimientoMembresia: z.string().datetime().optional(),
+    asesoramiento: z.boolean({
+        required_error: 'Tiene asesoramiento'
+    }),
+    invitadosMensuales: z.number({
+        required_error: 'Invitados mensuales'
+    }),
 });

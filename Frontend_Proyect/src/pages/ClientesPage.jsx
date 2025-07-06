@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useClientes } from '../context/ClientesContext.jsx';
+import ConfirmModal from "../components/ConfirmarModal.jsx"
 import { Link } from 'react-router-dom';
 
 function ClientesPage() {
   const { clientes, getClientes, deleteCliente } = useClientes();
   const [filtro, setFiltro] = useState('');
   const [filtrados, setFiltrados] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [toDelete, setToDelete] = useState(null);
 
   useEffect(() => {
     getClientes();
@@ -25,6 +28,17 @@ function ClientesPage() {
       );
     }
   }, [filtro, clientes]);
+
+  const handleDeleteClick = (client) => {
+    setToDelete(client);
+    setIsOpen(true);
+  };
+
+  const handleConfirm = async () => {
+    await deleteCliente(toDelete._id);
+    setIsOpen(false);
+    getClientes();
+  };
 
   return (
     <div className="p-6">
@@ -74,15 +88,15 @@ function ClientesPage() {
                   <td className="px-4 py-2 border-b border-gray-700">{c.telefono}</td>
                   <td className="px-4 py-2 border-b border-gray-700 space-x-2">
                     <Link
-                      to={`/clientes/${c._id}`}
+                      to={`/clientes/ver/${c._id}`}
                       className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded"
                     >Ver</Link>
                     <Link
-                      to={`/edit-clientes/${c._id}`}
+                      to={`/clientes/${c._id}`}
                       className="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded"
                     >Editar</Link>
                     <button
-                      onClick={() => deleteCliente(c._id)}
+                      onClick={() => handleDeleteClick(c)}
                       className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
                     >Eliminar</button>
                   </td>
@@ -92,6 +106,13 @@ function ClientesPage() {
           </tbody>
         </table>
       </div>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={handleConfirm}
+        title="Confirmar eliminación"
+        message={`¿Eliminar a ${toDelete?.nombre} ${toDelete?.apellidos}?`}
+      />
     </div>
   );
 }
