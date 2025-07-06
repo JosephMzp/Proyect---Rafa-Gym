@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
-import {usePagos} from "../context/PagosContext.jsx"
+import {usePagos} from "../context/PagosContext.jsx";
+import { HiArrowLeft, HiCreditCard } from 'react-icons/hi';
 
 function VerPago() {
   const { id } = useParams();
@@ -33,32 +34,61 @@ function VerPago() {
   const { idCliente, idMembresia, accesoSedes, monto, metodoPago, fechaInicio, fechaPago } = pago;
 
   return (
-    <div className="max-w-xl mx-auto bg-zinc-800 text-white p-6 rounded-md mt-10">
-      <h1 className="text-2xl font-bold mb-6">Detalles del Pago</h1>
+    <div className="max-w-md mx-auto bg-zinc-800 text-white p-8 rounded-xl shadow-lg mt-12">
+      {/* Ícono y título */}
+      <div className="flex items-center gap-2 mb-6">
+        <HiCreditCard className="text-sky-400 w-8 h-8" />
+        <h1 className="text-2xl font-bold">Detalles del Pago</h1>
+      </div>
 
       <div className="space-y-4">
-        <p><strong>DNI:</strong> {idCliente?.dni}</p>
-        <p><strong>Nombre:</strong> {idCliente?.nombre} {idCliente?.apellidos}</p>
-        <p><strong>Membresía:</strong> {idMembresia?.tipo}</p>
-
-        {idMembresia?.tipo === "Básica" && (
-          <p><strong>Sede asignada:</strong> {accesoSedes?.nombre || accesoSedes}</p>
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">DNI:</span>
+          <span>{pago.idCliente?.dni}</span>
+        </div>
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">Cliente:</span>
+          <span>{pago.idCliente?.nombre} {pago.idCliente?.apellidos}</span>
+        </div>
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">Membresía:</span>
+          <span>{pago.idMembresia?.tipo}</span>
+        </div>
+        {pago.idMembresia?.tipo === "Básica" && (
+          <div className="flex justify-between border-b border-zinc-700 pb-2">
+            <span className="font-medium text-gray-300">Sede:</span>
+            <span>{pago.accesoSedes?.nombre}</span>
+          </div>
         )}
-
-        <p><strong>Monto pagado:</strong> S/ {monto.toFixed(2)}</p>
-        <p><strong>Método de pago:</strong> {metodoPago}</p>
-        <p><strong>Fecha de inicio:</strong> {new Date(fechaInicio).toLocaleDateString()}</p>
-        <p><strong>Fecha de vencimiento:</strong> {new Date(fechaPago).toLocaleDateString()}</p>
+        {/** Montos y fechas */}
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">Monto:</span>
+          <span className="text-green-400 font-semibold">
+            S/ {pago.monto.toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">Método:</span>
+          <span>{pago.metodoPago}</span>
+        </div>
+        <div className="flex justify-between border-b border-zinc-700 pb-2">
+          <span className="font-medium text-gray-300">Inicio:</span>
+          <span>{new Date(pago.fechaInicio).toLocaleDateString()}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="font-medium text-gray-300">Vencimiento:</span>
+          <span>{new Date(pago.fechaPago).toLocaleDateString()}</span>
+        </div>
       </div>
 
-      <div className="mt-6">
-        <Link
-          to="/pagos"
-          className="inline-block bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded"
-        >
-          Volver
-        </Link>
-      </div>
+      {/* Botón de retorno */}
+      <Link
+        to="/pagos"
+        className="mt-8 flex items-center justify-center gap-2 w-full bg-sky-600 hover:bg-sky-700 py-2 rounded transition"
+      >
+        <HiArrowLeft className="w-5 h-5" />
+        Volver a pagos
+      </Link>
     </div>
   );
 }
