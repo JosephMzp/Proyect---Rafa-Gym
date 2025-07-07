@@ -11,12 +11,13 @@ import invitadoRoutes from './routes/invitados.routes.js'
 import membresiaRoutes from './routes/membresia.routes.js'
 import pagosRoutes from './routes/pagos.routes.js'
 import reportesRoutes from './routes/reportes.routes.js'
+import { FRONTEND_URL } from './config.js'
 
 const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://proyecto-rafa-gym.onrender.com'
+  'https://proyecto-rafagym.onrender.com/'
 ];
 
 // app.use(cors({
@@ -25,7 +26,7 @@ const allowedOrigins = [
 // }));
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || FRONTEND_URL.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`Origen ${origin} no permitido por CORS`));
