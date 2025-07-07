@@ -14,10 +14,26 @@ import reportesRoutes from './routes/reportes.routes.js'
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://proyecto-rafa-gym.onrender.com'
+];
+
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true
+// }));
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origen ${origin} no permitido por CORS`));
+    }
+  },
+  credentials: true,
 }));
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser())
