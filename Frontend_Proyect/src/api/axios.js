@@ -1,8 +1,12 @@
 import axios from 'axios'
 
+const baseURL = import.meta.env.PROD
+  ? '/api'
+  : 'http://localhost:3000/api'
+
 const instance = axios.create({
-    baseURL: 'http://localhost:3000/api',
-    withCredentials: true
+  baseURL,
+  withCredentials: true // si usas cookies/sesión
 })
 
 export default instance
