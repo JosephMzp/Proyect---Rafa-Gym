@@ -15,22 +15,17 @@ function DatosPage() {
   const [distMetodos, setDistMetodos] = useState([]);
   const [heatmapSeries, setHeatmapSeries] = useState([]);
   const [stats, setStats] = useState({ clientes: 0, pagos: 0, asistencias: 0 });
-  const heatmapDays = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
-  const heatmapHours = ["05:00",'06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00',
-    '15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'
-  ]
 
   useEffect(() => {
     async function fetchData() {
       try {
         const [
-          res1, res2, res3, res4, res5, r1, r2, r3
+          res1, res2, res3, res4, r1, r2, r3
         ] = await Promise.all([
           axiosInstance.get("/reportes/pagos-mes"),
           axiosInstance.get("/reportes/asistencias-dia"),
           axiosInstance.get("/reportes/membresias"),
           axiosInstance.get("/reportes/metodos-pago"),
-          axiosInstance.get("/reportes/heatmap-asistencia"),
           axiosInstance.get("/reportes/clientes-activos"),
           axiosInstance.get("/reportes/pagos-mes/count"),
           axiosInstance.get("/reportes/asistencias-hoy"),
@@ -39,7 +34,6 @@ function DatosPage() {
         setAsistenciasDiarias(res2.data);
         setDistMembresias(res3.data);
         setDistMetodos(res4.data);
-        setHeatmapSeries(res5.data);
         setStats({ 
         clientes: r1.data.count, 
         pagos: r2.data.count, 

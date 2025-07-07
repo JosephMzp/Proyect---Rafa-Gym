@@ -122,8 +122,10 @@ export const createAsistencias = async (req, res) => {
     const saved = await asistencia.save();
 
     return res.json(saved);
+    console.log("🚀 Asistencia guardada:", saved);
 
   } catch (error) {
+    
     console.error("Error createAsistencias:", error);
     return res.status(500).json({ message: "Asistencia no creada." });
   }
