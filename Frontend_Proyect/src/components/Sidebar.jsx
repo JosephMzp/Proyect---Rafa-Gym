@@ -1,14 +1,5 @@
 import { NavLink } from "react-router-dom";
 import {Link} from 'react-router-dom'
-import {
-  UserGroupIcon,
-  FingerPrintIcon,
-  CreditCardIcon,
-  CalendarIcon,
-  UsersIcon,
-  Cog6ToothIcon,
-  ClipboardDocumentListIcon 
-} from "@heroicons/react/24/outline";
 import {HiUserGroup,HiCalendar,HiCreditCard,HiFingerPrint,HiUsers,HiCog,HiClipboardList
 } from "react-icons/hi";
 
@@ -19,7 +10,7 @@ const menuItems = [
   { name: "Pagos", to: "/pagos", icon: HiCreditCard },
   { name: "Membresias", to: "/membresias", icon: HiFingerPrint },
   { name: "Invitados", to: "/invitados", icon: HiUsers },
-  { name: "Usuarios", to: "/usuarios", icon: HiCog },
+  //{ name: "Usuarios", to: "/usuarios", icon: HiCog },
   { name: "Tareas", to: "/tasks", icon: HiClipboardList },
 ];
 

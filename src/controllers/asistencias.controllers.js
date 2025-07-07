@@ -97,7 +97,7 @@ export const createAsistencias = async (req, res) => {
       }
     }
 
-    // Validación ingreso diario (puedes ajustar para Fit)
+    // Validación ingreso diario 
     if ((tipo === "Básica" || tipo === "Fit") && memb.ingreso_diario != null) {
       const countHoy = await Asistencia.countDocuments({ idCliente, fechaIngreso: { $gte: hoyInicio, $lt: hoyFin } });
       if (countHoy >= memb.ingreso_diario) {
@@ -118,7 +118,6 @@ export const createAsistencias = async (req, res) => {
       }
     }
 
-    // Guardar asistencia
     const asistencia = new Asistencia({ idCliente, idSede, invitados });
     const saved = await asistencia.save();
 

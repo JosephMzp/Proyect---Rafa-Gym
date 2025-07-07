@@ -22,7 +22,6 @@ export const AuthProvider = ({children}) => {
     try{
         const res = await registerRequest(usuario);
         console.log(res.data)
-        //if(res.status === 200){
         setUser(res.data)
         setIsAuthenticated(true)
     }

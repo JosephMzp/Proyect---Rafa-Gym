@@ -58,7 +58,7 @@ function HomePage() {
         <h2 className="text-2xl text-center font-semibold mb-8">Funciones</h2>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
           {[
-            { icon: "👤", title: "Registrar cliente", desc: "Guarda datos y membresía." },
+            { icon: "👤", title: "Registrar cliente", desc: "Guarda datos y membresías." },
             { icon: "💳", title: "Gestión de pagos", desc: "Registra monto, método y fecha." },
             { icon: "📅", title: "Control de asistencia", desc: "Registra entrada diaria." },
             { icon: "📈", title: "Ver reportes", desc: "Estadísticas y gráficos actualizados." },

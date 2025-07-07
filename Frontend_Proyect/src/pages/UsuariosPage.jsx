@@ -5,7 +5,7 @@ function UsuariosPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/users') // ajusta tu endpoint real
+    fetch('/api/users') 
       .then(res => res.json())
       .then(data => setUsers(data))
       .finally(() => setLoading(false));

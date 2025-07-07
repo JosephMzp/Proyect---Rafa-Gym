@@ -48,7 +48,6 @@ export const createPagos = async (req, res) => {
     } = req.body;
 
     const ahora = new Date();
-    // 1. Verificar si hay un pago activo (fechaPago > ahora)
     const activo = await Pago.findOne({
       idCliente,
       fechaPago: { $gt: ahora }
@@ -60,7 +59,6 @@ export const createPagos = async (req, res) => {
         .json({ message: 'El cliente ya tiene un pago activo en este momento' });
     }
 
-    // 2. Crear el nuevo pago (tendrá fechaPago ~ 1 mes desde hoy)
     const newPago = new Pago({
       idCliente,
       idMembresia,

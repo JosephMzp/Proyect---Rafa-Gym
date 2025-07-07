@@ -157,49 +157,6 @@ export const distribucionMetodosPago = async (req, res) => {
   }
 };
 
-export const heatmapAsistencia = async (req, res) => {
-  try {
-    const datos = await Asistencia.aggregate([
-      {
-        $group: {
-          _id: {
-            diaSemana: { $dayOfWeek: "$fechaIngreso" },
-            hora: { $hour: "$fechaIngreso" },
-          },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          diaSemana: "$_id.diaSemana",
-          hora: "$_id.hora",
-          count: 1,
-        },
-      },
-    ]);
-
-    // Inicializar estructura de salida agrupada por hora
-    const seriesMap = {};
-    datos.forEach((d) => {
-      const hora = `${String(d.hora).padStart(2, "0")}:00`;
-      if (!seriesMap[hora]) seriesMap[hora] = Array(7).fill(0);
-      // Mongo: diaSemana 1 = Domingo, 7 = Sábado
-      seriesMap[hora][d.diaSemana - 1] = d.count;
-    });
-
-    const series = Object.entries(seriesMap).map(([hora, data]) => ({
-      name: hora,
-      data,
-    }));
-
-    res.json(series);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error generando heatmap de asistencias" });
-  }
-};
-
 export const countClientesActivos = async (req, res) => {
   const count = await Cliente.countDocuments();
   res.json({ count });

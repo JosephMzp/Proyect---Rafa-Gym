@@ -3,7 +3,6 @@ import bcrypt, { hash } from "bcryptjs"
 import {createAccessToken} from "../libs/jwt.js"
 import jwt from 'jsonwebtoken';
 import {token_secret} from '../config.js'
-//import { email } from "zod/v4"
 
 export const register = async (req, res) => {
     
