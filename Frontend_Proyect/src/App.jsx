@@ -30,6 +30,9 @@ import RegistrarInvitado from './pages/RegistrarInvitados.jsx'
 import RegistrarPagos from './pages/RegistrarPagos.jsx'
 import VerPago from './pages/VerPagoPage.jsx'
 import DatosPage from './pages/DatosPage.jsx'
+import VerInvitado from './pages/VerInvitado.jsx'
+import VerMembresia from './pages/VerMembresia.jsx'
+import EditarMembresia from './pages/EditarMembresia.jsx'
 
 function App(){
   return (
@@ -64,8 +67,11 @@ function App(){
            <Route path='/asistencias' element={<AsistenciasPage/>} />
            <Route path='/add-asistencias' element={<RegistrarAsistencia/>} />
            <Route path='/invitados' element={<InvitadosPage/>} />
+           <Route path='/invitados/:id' element={<VerInvitado/>} />
            <Route path='/invitados/nuevo' element={<RegistrarInvitado/>} />
            <Route path='/membresias' element={<MembresiasPage/>} />
+           <Route path='/membresias/:id' element={<VerMembresia/>} />
+           <Route path='/edit-membresias/:id' element={<EditarMembresia/>} />
            <Route path='/pagos' element={<PagosPage/>} />
            <Route path='/add-pagos' element={<RegistrarPagos/>} />
            <Route path='/pagos/:id' element={<VerPago/>} />    

@@ -1,6 +1,7 @@
 import {useForm} from 'react-hook-form'
 import { useClientes } from '../context/ClientesContext.jsx';
-import { useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams, Link} from 'react-router-dom';
+import { HiArrowLeft } from 'react-icons/hi';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
@@ -45,57 +46,60 @@ function RegistroClientes({mode}) {
           }
          navigate('/clientes')
     })
+    
 
-    return (
-        <div className='flex h-[calc(100vh-100px)] items-center justify-center'>
-        <div className='relative  bg-zinc-800 max-w-md w-full p-10 rounded-md'>
-            <button
-          onClick={handleClose}
-          className="absolute top-2 right-2 bg-red-600 px-3 py-2 text-gray-400 hover:text-white"
-          title="Cerrar">✕</button>
-            <form onSubmit={!isViewMode ? onSumit : undefined}>
-            <label htmlFor='dni'>DNI</label>
-            <input disabled={isViewMode} type="text" placeholder="DNI"
-            {...register('dni', { required: true })}
-            className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-            autoFocus
-            />
+return (
+  <div className="relative flex justify-center items-start bg-gradient-to-br from-zinc-900 to-zinc-800 z-10"
+  style={{ minHeight: 'calc(100vh - 100px)', paddingTop: '1rem' }}>
+    <div className="relative bg-zinc-700 max-w-md w-full p-8 rounded-xl shadow-xl z-20">
+      <Link
+        to="/clientes"
+        className="absolute top-4 right-4 z-30 w-40 h-10 gap-2 bg-sky-600 hover:bg-sky-700 flex items-center justify-center rounded focus:outline-none"
+      >
+        <HiArrowLeft className="w-5 h-5" />
+        Volver a clientes
+      </Link>
+      <h2 className="text-2xl font-bold text-center mb-4 mt-8">
+        {isViewMode ? 'Ver Cliente' : 'Registrar Cliente'}
+      </h2>
 
-            <label htmlFor='nombre'>Nombres</label>
-            <input disabled={isViewMode} type="text" placeholder="Nombres"
-            {...register("nombre", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+      <form onSubmit={!isViewMode ? onSumit : undefined} className="space-y-4">
+        {[
+          { id: 'dni', label: 'DNI', type: 'text' },
+          { id: 'nombre', label: 'Nombres', type: 'text' },
+          { id: 'apellidos', label: 'Apellidos', type: 'text' },
+          { id: 'telefono', label: 'Teléfono', type: 'text' },
+          { id: 'email', label: 'Email', type: 'email' },
+        ].map(({ id, label, type }) => (
+          <div key={id}>
+            <label htmlFor={id} className="block text-sm font-medium text-gray-200">
+              {label}
+            </label>
+            <input
+              disabled={isViewMode}
+              type={type}
+              placeholder={label}
+              {...register(id, { required: true })}
+              className="mt-1 w-full bg-zinc-600 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
-            {errors.nombre && <p className="text-red-500">Se requiere nombre</p>}
+            {errors[id] && (
+              <p className="text-red-400 text-sm mt-1">El campo {label} es obligatorio</p>
+            )}
+          </div>
+        ))}
 
-            <label htmlFor='apellidos'>Apellidos</label>
-            <input disabled={isViewMode} type="text" placeholder="Apellidos"
-            {...register("apellidos", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
-            />
-            {errors.apellidos && <p className="text-red-500">Se requiere apellidos</p>}
-
-            <label htmlFor='telefono'>Teléfono</label>
-            <input disabled={isViewMode} type="text" placeholder="Teléfono"
-            {...register("telefono", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
-            />
-            {errors.telefono && <p className="text-red-500">Se requiere telefono</p>}
-
-            <label htmlFor='email'>Email</label>
-            <input disabled={isViewMode} type="email" placeholder="Email"
-            {...register("email", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
-            />
-            {errors.email && <p className="text-red-500">Email is Requerido</p>}
-            {!isViewMode && (
-            <button className='bg-indigo-500 px-3 py-2 rounded-md'>
-                Save
-            </button>)}
-            </form>
-        </div>
+        {!isViewMode && (
+          <button
+            type="submit"
+            className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded-md font-medium transition"
+          >
+            Guardar Cliente
+          </button>
+        )}
+      </form>
     </div>
-    )
+  </div>
+);
 }
 
 export default RegistroClientes

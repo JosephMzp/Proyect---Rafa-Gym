@@ -16,6 +16,9 @@ function DatosPage() {
   const [heatmapSeries, setHeatmapSeries] = useState([]);
   const [stats, setStats] = useState({ clientes: 0, pagos: 0, asistencias: 0 });
   const heatmapDays = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+  const heatmapHours = ["05:00",'06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00',
+    '15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'
+  ]
 
   useEffect(() => {
     async function fetchData() {
@@ -95,36 +98,10 @@ function DatosPage() {
           <PieChartCategory data={distMetodos} nameKey="metodoPago" valueKey="count" />
         </div>
       </section>
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Asistencia por Hora y Día</h2>
-        <Heatmap series={heatmapSeries} xaxisCategories={heatmapDays} />
-      </section>
+
     </div>
 
-      {/* Cómo funciona */}
-      <section className="py-12">
-        <h2 className="text-2xl text-center font-semibold mb-8">Cómo Funciona</h2>
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-          {[
-            { icon: "👤", title: "Registrar cliente", desc: "Guarda datos y membresía." },
-            { icon: "💳", title: "Gestión de pagos", desc: "Registra monto, método y fecha." },
-            { icon: "📅", title: "Control de asistencia", desc: "Registra entrada diaria." },
-            { icon: "📈", title: "Ver reportes", desc: "Estadísticas y gráficos actualizados." },
-
-          ].map((step, i) => (
-            <div
-              key={i}
-              className="flex items-start space-x-4 bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition"
-            >
-              <div className="text-4xl">{step.icon}</div>
-              <div>
-                <h3 className="text-xl font-semibold">{step.title}</h3>
-                <p className="text-gray-300">{step.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+    
     </div>
     )
 }

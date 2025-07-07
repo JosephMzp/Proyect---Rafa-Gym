@@ -53,25 +53,6 @@ function HomePage() {
         </div>
       </header>
 
-      {/* Stats rápidos */}
-      <section className="py-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 px-4">
-          {[
-            { label: "Clientes activos", value: stats.clientes },
-            { label: "Pagos este mes", value: stats.pagos },
-            { label: "Asistencias hoy", value: stats.asistencias },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="p-6 bg-gray-800 rounded-lg hover:bg-gray-700 transition cursor-pointer"
-            >
-              <h2 className="text-sm text-gray-400">{stat.label}</h2>
-              <p className="text-3xl font-semibold">{stat.value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Cómo funciona */}
       <section className="py-12 bg-gray-800">
         <h2 className="text-2xl text-center font-semibold mb-8">Funciones</h2>

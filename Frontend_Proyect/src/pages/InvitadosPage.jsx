@@ -57,7 +57,10 @@ function InvitadosPage() {
                 <td className="px-4 py-2">{inv.idSede.nombre}</td>
                 <td className="px-4 py-2">{new Date(inv.createdAt).toLocaleDateString()}</td>
                 <td className="px-4 py-2 space-x-2">
-                  <button className="bg-blue-600 px-2 py-1 rounded">Ver</button>
+                  <Link
+                      to={`/invitados/${inv._id}`}
+                      className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded"
+                    >Ver</Link>
                   <button onClick={() => handleDeleteClick(inv)} className="bg-red-600 px-2 py-1 rounded">Eliminar</button>
                 </td>
               </tr>
@@ -65,7 +68,7 @@ function InvitadosPage() {
           </tbody>
         </table>
       </div>
-      {/* Aquí puedes poner paginación si quieres */}
+      {/*  paginación  */}
       <div className="flex justify-center mt-4 space-x-2">
         <button
           onClick={() => setPage(p => Math.max(1, p - 1))}

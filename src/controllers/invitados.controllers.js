@@ -66,7 +66,7 @@ console.log('Último pago:', ultimoPago);
 
 export const getInvitado = async (req, res) => {
     try{
-     const invitado = await Invitado.findById(req.params.id).populate('cliente');
+     const invitado = await Invitado.findById(req.params.id).populate('idCliente').populate('idSede');
      if(!invitado) return res.status(404).json({message: 'Invitado no encontrada'})
      res.json(invitado)
     }catch(error){

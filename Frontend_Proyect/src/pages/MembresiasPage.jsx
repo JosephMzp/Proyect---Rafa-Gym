@@ -11,39 +11,11 @@ function MembresiasPage() {
     getMembresias();
   }, []);
 
-//   useEffect(() => {
-//     const f = filtro.toLowerCase().trim();
-//     if (!f) {
-//       setFiltrados(membresias);
-//     } else {
-//       setFiltrados(
-//         membresias.filter(m =>
-//           m.tipo.toString().includes(f) ||
-//           m.nombre.toLowerCase().includes(f) ||
-//           m.apellidos.toLowerCase().includes(f)
-//         )
-//       );
-//     }
-//   }, [filtro, clientes]);
-
   return (
     <div className="p-6">
       <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-2">
         <h1 className="text-2xl font-bold text-white">Lista de membresias</h1>
         <div className="flex gap-2 w-full sm:w-auto">
-          {/* <input
-            type="text"
-            placeholder="Buscar por DNI, nombre o apellido"
-            className="w-full sm:w-64 px-4 py-2 rounded bg-zinc-700 text-white"
-            value={filtro}
-            onChange={e => setFiltro(e.target.value)}
-          /> */}
-          {/* <Link
-            to="/add-clientes"
-            className="bg-green-900 px-4 py-2 rounded text-white hover:bg-green-800"
-          >
-            + Agregar
-          </Link> */}
         </div>
       </div>
 
@@ -74,11 +46,11 @@ function MembresiasPage() {
                   <td className="px-4 py-2 border-b border-gray-700">{m.invitadosMensuales}</td>
                   <td className="px-4 py-2 border-b border-gray-700 space-x-2">
                     <Link
-                      to={`/clientes/${m._id}`}
+                      to={`/membresias/${m._id}`}
                       className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded"
                     >Ver</Link>
                     <Link
-                      to={`/edit-clientes/${m._id}`}
+                      to={`/edit-membresias/${m._id}`}
                       className="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded"
                     >Editar</Link>
                   </td>

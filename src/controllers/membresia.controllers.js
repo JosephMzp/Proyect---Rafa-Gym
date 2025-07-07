@@ -28,7 +28,7 @@ export const createMembresias = async (req, res) => {
 
 export const getMembresia = async (req, res) => {
     try{
-     const membresia = await Membresia.findById(req.params.id).populate('usuario');
+     const membresia = await Membresia.findById(req.params.id);
      if(!membresia) return res.status(404).json({message: 'Membresia no encontrada'})
      res.json(membresia)
     }catch(error){
